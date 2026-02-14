@@ -8,20 +8,20 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.laba_1.MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.laba_1.MainController">
    <children>
-      <Pane layoutX="9.0" layoutY="84.0" prefHeight="310.0" prefWidth="700.0">
+      <Pane layoutX="9.0" layoutY="84.0" prefHeight="180.0" prefWidth="700.0">
          <children>
-            <Button layoutX="14.0" layoutY="270.0" mnemonicParsing="false" onAction="#onCodeButtonClick" prefHeight="25.0" prefWidth="121.0" text="ШИФРОВАТЬ" />
-            <Button layoutX="145.0" layoutY="270.0" mnemonicParsing="false" onAction="#onDecodeButtonClick" prefHeight="25.0" prefWidth="121.0" text="ДЕШИФРОВАТЬ" />
-            <Button layoutX="285.0" layoutY="270.0" mnemonicParsing="false" onAction="#clear" prefHeight="25.0" prefWidth="103.0" text="ОЧИСТИТЬ" />
-            <Button layoutX="405.0" layoutY="270.0" mnemonicParsing="false" onAction="#onOpenFileButtonClick" prefHeight="25.0" prefWidth="121.0" text="ОТКРЫТЬ ФАЙЛ" />
-            <Button layoutX="544.0" layoutY="270.0" mnemonicParsing="false" onAction="#onSaveButtonClick" prefHeight="25.0" prefWidth="144.0" text="СОХРАНИТЬ В ФАЙЛ" />
+            <Button layoutX="14.0" layoutY="151.0" mnemonicParsing="false" onAction="#onCodeButtonClick" prefHeight="25.0" prefWidth="121.0" text="ШИФРОВАТЬ" />
+            <Button layoutX="148.0" layoutY="151.0" mnemonicParsing="false" onAction="#onDecodeButtonClick" prefHeight="25.0" prefWidth="121.0" text="ДЕШИФРОВАТЬ" />
+            <Button layoutX="281.0" layoutY="151.0" mnemonicParsing="false" onAction="#clear" prefHeight="25.0" prefWidth="103.0" text="ОЧИСТИТЬ" />
+            <Button layoutX="394.0" layoutY="151.0" mnemonicParsing="false" onAction="#onOpenFileButtonClick" prefHeight="25.0" prefWidth="121.0" text="ОТКРЫТЬ ФАЙЛ" />
+            <Button layoutX="526.0" layoutY="151.0" mnemonicParsing="false" onAction="#onSaveButtonClick" prefHeight="25.0" prefWidth="144.0" text="СОХРАНИТЬ В ФАЙЛ" />
             <TextField fx:id="keyTextField" layoutX="21.0" layoutY="20.0" promptText="ВВЕДИТЕ КЛЮЧ" />
-            <TextArea fx:id="plainTextArea" layoutX="21.0" layoutY="84.0" prefHeight="165.0" prefWidth="247.0" />
-            <TextArea fx:id="resultTextArea" layoutX="285.0" layoutY="84.0" prefHeight="165.0" prefWidth="247.0" />
+            <TextArea fx:id="plainTextArea" layoutX="21.0" layoutY="84.0" prefHeight="56.0" prefWidth="311.0" />
+            <TextArea fx:id="resultTextArea" layoutX="359.0" layoutY="84.0" prefHeight="56.0" prefWidth="311.0" />
             <Label fx:id="welcomeText" layoutX="22.0" layoutY="66.0" text="ИСХОДНЫЙ ТЕКСТ" />
-            <Label layoutX="285.0" layoutY="66.0" text="РЕЗУЛЬТИРУЮЩИЙ ТЕКСТ" />
+            <Label layoutX="359.0" layoutY="66.0" text="РЕЗУЛЬТИРУЮЩИЙ ТЕКСТ" />
          </children>
       </Pane>
       <RadioButton fx:id="columnButton" layoutX="25.0" layoutY="14.0" mnemonicParsing="false" selected="true" text="Столбцовый метод">
