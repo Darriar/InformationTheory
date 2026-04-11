@@ -9,6 +9,7 @@ import java.util.function.UnaryOperator
 import javafx.stage.FileChooser
 import java.io.File
 import java.nio.file.Files
+import java.util.ArrayList
 
 class MainController {
     @FXML
@@ -21,77 +22,69 @@ class MainController {
     private lateinit var generatedKeyTextArea: TextArea
 
     private var logic = Logic()
+    private var isTextEdited = true
 
-    fun formatKeyWithSpaces(key: String): String {
-        return key.chunked(8).joinToString(" ")
+    private fun formatKeyWithSpaces(key: String): String {
+        return key.take(8 * 128).chunked(8).joinToString(" ")     // отобразить первые 128 байт
     }
 
     @FXML
-    fun onEncryptButtonClick() {
+    fun convertData() {
         if (inputKeyTextField.text.length < 38) {
             showError("Ошибка", "Короткий ключ!")
             return
         }
-        logic = Logic()
-        logic.register = logic.stringToByteList(inputKeyTextField.text)
-        logic.plainText = logic.stringToByteList(originalDataTextArea.text)
 
-        logic.encrypt()
+        logic.convertedText.clear()
+        logic.key.clear()
+        logic.register = logic.stringToByteList(inputKeyTextField.text)
+
+        if (isTextEdited)
+            logic.plainText = logic.stringToByteList(originalDataTextArea.text)
+
+        logic.convertText()
 
         generatedKeyTextArea.text = formatKeyWithSpaces(logic.key.joinToString(separator = "") { it.toString() })
-        convertedDataTextArea.text = formatKeyWithSpaces(logic.cipherText.joinToString(separator = "") { it.toString() })
-    }
-
-    @FXML
-    fun onDecryptButtonClick() {
-        if (inputKeyTextField.text.length < 38) {
-            showError("Ошибка", "Короткий ключ!")
-            return
-        }
-        logic = Logic()
-        logic.register = logic.stringToByteList(inputKeyTextField.text)
-        logic.cipherText = logic.stringToByteList(originalDataTextArea.text)
-
-        logic.decrypt()
-
-        generatedKeyTextArea.text = formatKeyWithSpaces(logic.key.joinToString(separator = "") { it.toString() })
-        convertedDataTextArea.text = formatKeyWithSpaces(logic.decryptedText.joinToString(separator = "") { it.toString() })
+        convertedDataTextArea.text =formatKeyWithSpaces(logic.convertedText.joinToString(separator = "") { it.toString() })
     }
 
 
     fun onOpenFileButtonClick() {
         val fileChooser = FileChooser()
+        fileChooser.initialDirectory = File("D:\\src_ti")
         fileChooser.title = "Выберите файл для чтения"
 
         val selectedFile = fileChooser.showOpenDialog(null) ?: return
 
         val bytes = Files.readAllBytes(selectedFile.toPath())
 
-        val binaryString = bytes.joinToString(separator = "") { byte ->
-            Integer.toBinaryString(byte.toInt() and 0xFF).padStart(8, '0')
-        }
+        logic.plainText = bytes.flatMap { b ->
+            (7 downTo 0).map { i -> (b.toInt() shr i and 1).toByte() }
+        }.toCollection(ArrayList())
 
-        originalDataTextArea.text = formatKeyWithSpaces(binaryString)
+        originalDataTextArea.text = formatKeyWithSpaces(logic.plainText.joinToString(""))
+        isTextEdited = false
     }
 
 
     fun onSaveFileButtonClick() {
         val fileChooser = FileChooser()
+        fileChooser.initialDirectory = File("D:\\src_ti")
         fileChooser.title = "Сохранить файл"
 
         val file = fileChooser.showSaveDialog(null) ?: return
+        val bitList = logic.convertedText
+        val bytes = ByteArray(bitList.size / 8)
 
-        val binaryString = convertedDataTextArea.text.replace(" ", "").replace("\n", "")
-
-        // преобразование блоков по 8 символов в байты
-        val bytes = ByteArray(binaryString.length / 8)
         for (i in bytes.indices) {
-            val byteString = binaryString.substring(i * 8, (i + 1) * 8)
-            bytes[i] = byteString.toInt(2).toByte()
+            var currentByte = 0
+            for (bitIndex in 0..7) {
+                val bit = bitList[i * 8 + bitIndex].toInt() and 1
+                currentByte = (currentByte shl 1) or bit
+            }
+            bytes[i] = currentByte.toByte()
         }
-
         Files.write(file.toPath(), bytes)
-
     }
 
     fun onCleanButtonClick() {
@@ -102,7 +95,7 @@ class MainController {
         convertedDataTextArea.clear()
     }
 
-    fun setupBinaryField(textField: TextField) {
+    private fun setupBinaryField(textField: TextField) {
         val filter = UnaryOperator<TextFormatter.Change> { change ->
             val newText = change.controlNewText
 
@@ -119,6 +112,8 @@ class MainController {
     @FXML
     fun initialize() {
         setupBinaryField(inputKeyTextField)
+
+        originalDataTextArea.textProperty().addListener { _, _, _ -> isTextEdited = true }
     }
 
     private fun showError(title: String, message: String) {
@@ -128,5 +123,3 @@ class MainController {
         alert.showAndWait()
     }
 }
-
-//запускать clean при новом преобразовании

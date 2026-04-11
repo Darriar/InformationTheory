@@ -4,44 +4,35 @@ import kotlin.experimental.xor
 
 class Logic {
     //x^38 + x^6 + x^5 + x + 1
-    val maxPower = 38
+    private val maxPower = 38
+    private val indexes = listOf(38, 6, 5, 1)
 
     var plainText: ArrayList<Byte> = ArrayList()
     var register: ArrayList<Byte> = ArrayList(List(maxPower) { 0.toByte() })
-    var cipherText: ArrayList<Byte> = ArrayList()
-    var decryptedText: ArrayList<Byte> = ArrayList()
+    var convertedText: ArrayList<Byte> = ArrayList()
     var key: ArrayList<Byte> = ArrayList()
 
 
-    fun generateKeyBit(): Byte {
-        val outBit = register.last
+    private fun generateKeyBit(): Byte {
+        val outBit = register.first
 
-        var newBit = register.get(37) xor register.get(5) xor register.get(4) xor register.get(0)
+        var newBit = 0
+        for (i in 0..<indexes.size)
+            newBit = newBit xor register[maxPower - indexes[i]].toInt()
 
-        register.removeLast()
-        register.addFirst(newBit)
+        register.removeFirst()
+        register.addLast(newBit.toByte())
 
         return outBit
     }
 
-    fun convertText(text: ArrayList<Byte>): ArrayList<Byte> {
-        var convertedText: ArrayList<Byte> = ArrayList()
-        for (element in text) {
+    fun convertText() {
+        for (element in plainText) {
             val outKeyBit = generateKeyBit()
             key.add(outKeyBit)
             var convertedElement = element xor outKeyBit
             convertedText.add(convertedElement)
         }
-
-        return convertedText
-    }
-
-    fun encrypt() {
-        cipherText = convertText(plainText)
-    }
-
-    fun decrypt() {
-        decryptedText = convertText(cipherText)
     }
 
     fun stringToByteList(input: String): ArrayList<Byte> {

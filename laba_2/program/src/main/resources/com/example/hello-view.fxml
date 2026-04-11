@@ -16,8 +16,8 @@
       <Label layoutX="68.0" layoutY="326.0" prefHeight="17.0" prefWidth="466.0" text="ИСХОДНЫЙ ТЕКСТ" />
       <Label layoutX="590.0" layoutY="326.0" text="ПРЕОБРАЗОВАННЫЙ ТЕКСТ" />
       <Label layoutX="590.0" layoutY="54.0" text="СГЕНЕРИРОВАННЫЙ КЛЮЧ" />
-      <Button fx:id="encryptButton" layoutX="68.0" layoutY="669.0" mnemonicParsing="false" onAction="#onEncryptButtonClick" prefHeight="33.0" prefWidth="173.0" text="ШИФРОВАТЬ" />
-      <Button fx:id="decryptButton" layoutX="272.0" layoutY="669.0" mnemonicParsing="false" onAction="#onDecryptButtonClick" prefHeight="33.0" prefWidth="173.0" text="ДЕШИФРОВАТЬ" />
+      <Button fx:id="encryptButton" layoutX="68.0" layoutY="669.0" mnemonicParsing="false" onAction="#convertData" prefHeight="33.0" prefWidth="173.0" text="ШИФРОВАТЬ" />
+      <Button fx:id="decryptButton" layoutX="272.0" layoutY="669.0" mnemonicParsing="false" onAction="#convertData" prefHeight="33.0" prefWidth="173.0" text="ДЕШИФРОВАТЬ" />
       <Button fx:id="openFileButton" layoutX="478.0" layoutY="669.0" mnemonicParsing="false" onAction="#onOpenFileButtonClick" prefHeight="33.0" prefWidth="173.0" text="ОТКРЫТЬ ФАЙЛ" />
       <Button fx:id="saveFileButton" layoutX="681.0" layoutY="669.0" mnemonicParsing="false" onAction="#onSaveFileButtonClick" prefHeight="33.0" prefWidth="173.0" text="СОХРАНИТЬ ФАЙЛ" />
       <Button fx:id="cleanButton" layoutX="883.0" layoutY="669.0" mnemonicParsing="false" onAction="#onCleanButtonClick" prefHeight="33.0" prefWidth="173.0" text="ОЧИСТИТЬ" />
